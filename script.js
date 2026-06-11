@@ -1,3 +1,6 @@
+async function getAIReview(userCode){
+    console.log("sending code to gemini:", userCode);
+}
 let clear = document.getElementById("clear");
 let reviewbtn = document.getElementById("reviewbtn");
 
@@ -49,5 +52,6 @@ reviewbtn.addEventListener("click", function () {
         }
     }
 });
+
 
 
