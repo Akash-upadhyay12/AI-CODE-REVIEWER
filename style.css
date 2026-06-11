@@ -1,6 +1,13 @@
+/*
+NAV BAR 
+*/
 body{
     background-color: #0A0F1F;
     margin: 0;
+    overflow-x: hidden;
+}
+*{
+    box-sizing: border-box;
 }
 .nav-container{
     width: 100%;
@@ -15,7 +22,7 @@ nav{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padidng: 15px 50px;
+    padding: 15px 50px;
     
 }
 ul{
@@ -30,9 +37,9 @@ a{
     color: white;
 }
 
-button{
+#signin{
     padding: 10px 20px;
-    margin-right: 10px ;
+    margin-right: 15px ;
     border-radius: 10px;
     cursor: pointer;
     border: none;
@@ -50,11 +57,124 @@ button{
     margin: 20px;
 
 }
+/*
+Main body and left panel 
+*/
 .left,.right{
     min-height: 600px;
     flex: 1;
     border: 1px solid #1A2333;
     border-radius: 10px;
-
+}
+.left{
+    width: 48%;
+    padding: 20px;
 
 }
+.left h3{
+    margin-top: 0px;
+    margin-bottom: 15px;
+    color: white;
+    padding-bottom: 20px;
+}
+.left select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 18px;
+    border-radius: 7px;
+    background-color: #0A0F1F;
+    color: white;
+    cursor: pointer;
+}
+.left textarea{
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    resize: none;
+    border-radius: 12px;
+    background-color: #0A0F1F;
+    color: white;
+    font-size: 15px;
+    font-family: consolas, monospace;
+    
+}
+.btns{
+    margin-top: 15px;
+}
+.btns button{
+    padding: 12px 24px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+    background-color: #171e37;
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+#reviewbtn{
+    background-color: #0739a6;
+}
+
+
+/*
+Main body and right panel 
+*/
+
+
+.review-card{
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #2d3748;
+    border-radius: 10px;
+    background-color: #111827;
+    min-height: 80px;
+    font-family: consolas, monospace;
+
+}
+.score-card{
+    margin-top: 15px;
+    padding: 20px;
+    border: 1px solid #22c55e;
+    border-radius: 10px;
+    max-height: 140px;
+    gap: 10px;
+}
+.review-card h3, .score-card h3{
+    margin-bottom: 10px;
+}
+.right h3, .right h2{
+    color: white;
+}
+.review-card p, .score-card p{
+    color: #cbd5e1;
+}
+.model{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+
+}
+#gemini{
+    height: 30px;
+    width: 120px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: #171e37;
+    cursor: pointer;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

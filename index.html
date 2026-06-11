@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>AI Code Reviewer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,12 +15,57 @@
             <li><a href="#">History</a></li>
             <li><a href="#">About</a></li>
         </ul>
-        <button>Sign In</button>
+        <button id="signin">Sign In</button>
     </nav>
     </div>
     <div class="main">
-        <div class="left"></div>
-        <div class="right"></div>
+        <div class="left">
+            <h3>Your Code</h3>
+            <select id="language">
+                <option>Java</option>
+                <option>Python</option>
+                <option>C++</option>
+                <option>JavaScript</option>
+            </select>
+            <textarea id="code" placeholder="Paste Your Code Here..."></textarea>
+            <div class="btns">
+            <button id="reviewbtn">Review Code</button>
+            <button id="clear">Clear</button>
+            </div>
+            
+        </div>
+        <div class="right">
+            <div class="model">
+                <h2>AI Review</h2>
+                <select id="gemini">
+                    <option>Gemini 1.5 Flash</option>
+                    <option>Gemini 1.5 Pro</option>
+                </select>
+
+            </div>
+            <div class="score-card">
+                <h3>Overall Score</h3>
+                <p id="scorecount">0/100</p>
+                <p id="review">Waiting for review....</p>
+            </div>
+            <div class="review-card">
+                <h3>Bugs Found</h3>
+                <p>No review yet...</p>
+            </div>
+            <div class="review-card">
+                <h3>Suggestions</h3>
+                <p>No suggestions yet...</p>
+            </div>
+            <div class="review-card">
+                <h3>Time Complexity</h3>
+                <p>Not analyzed yet...</p>
+            </div>
+            <div class="review-card">
+                <h3>Optimized Code</h3>
+                <p>Optimized code will appear here...</p>
+            </div>
+            
+        </div>
     </div>
     
 
