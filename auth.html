@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Code Reviewer - Auth</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+
+    <div class="auth-container">
+        <h1>AI Code Reviewer</h1>
+        <p>Review your code with AI assistance</p>
+
+        <div class="form-box">
+            <input type="email" placeholder="Enter Email">
+            <input type="password" placeholder="Enter Password">
+
+            <button id="signinbtn">Sign In</button>
+            <p class="signup-text">
+    Don't have an account? <a href="#">Sign Up</a>
+</p>
+
+            <div class="divider">OR</div>
+
+            <button id="guestbtn">Continue as Guest</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("guestbtn").addEventListener("click", function(){
+            window.location.href = "index.html";
+            
+        });
+    </script>
+
+</body>
+</html>
