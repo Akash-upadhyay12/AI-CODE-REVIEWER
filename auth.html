@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>AI Code Reviewer - Auth</title>
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 <body>
 
@@ -11,12 +11,13 @@
         <p>Review your code with AI assistance</p>
 
         <div class="form-box">
+            <input type="text" id="username" placeholder="Enter Username" style="display: none;">
             <input type="email" placeholder="Enter Email">
             <input type="password" placeholder="Enter Password">
 
             <button id="signinbtn">Sign In</button>
             <p class="signup-text">
-    Don't have an account? <a href="#">Sign Up</a>
+    Don't have an account? <a id="signupLink" href="#">Sign Up</a>
 </p>
 
             <div class="divider">OR</div>
@@ -30,6 +31,16 @@
             window.location.href = "index.html";
             
         });
+        document.getElementById("signupLink").addEventListener("click", function(e){
+            e.preventDefault();
+            document.querySelector("h1").innerText ="Create Account";
+
+            document.getElementById("signinbtn").innerText ="Sign Up";
+            document.getElementById("username").style.display="block";
+            
+            
+        })
+        
     </script>
 
 </body>

@@ -1,83 +1,25 @@
-// let clear = document.getElementById("clear");
-// let reviewbtn = document.getElementById("reviewbtn");
-// console.log(reviewbtn);
-
-// function resetReview() {
-//     let code = document.getElementById("code");
-//     let review = document.getElementById("review");
-//     let scorecount = document.getElementById("scorecount");
-//     let bugs = document.getElementById("bugs");
-//     let suggestion = document.getElementById("suggestion");
-//     let timecomplexity = document.getElementById("timecomplexity");
-//     let optimized = document.getElementById("optimized");
-
-//     code.value = "";
-//     review.innerText = "Waiting for review....";
-//     scorecount.textContent = "0/100";
-//     bugs.innerText = "No review yet...";
-//     suggestion.innerText = "No suggestions yet...";
-//     timecomplexity.innerText = "Not analyzed yet...";
-//     optimized.innerText = "No optimized yet...";
-// }
-
-// clear.addEventListener("click", function () {
-//     resetReview();
-// });
-// reviewbtn.addEventListener("click", async function () {
-//     const code = document.getElementById("code").value;
-
-//     reviewbtn.disabled = true;
-
-//     const response = await fetch("http://localhost:5000/review", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json"
-//         },
-//         body: JSON.stringify({ code: code })
-//     });
-
-//     const data = await response.json();
-
-//     reviewbtn.disabled = false;
-// });
-
-
-//     console.log("after fetch");
-//     if(!response.ok){
-//         throw new Error("API Error");
-//     }
-//     const data = await response.json()
-//     console.log(data);
-//     console.log(data.review);
-//     let scorecount = document.getElementById("scorecount");
-//     let review = document.getElementById("review");
-//     let bugs = document.getElementById("bugs");
-//     let suggestion = document.getElementById("suggestion");
-//     let timecomplexity = document.getElementById("timecomplexity");
-//     let optimized = document.getElementById("optimized");
-//     let text = data.review;
-//     review.textContent= text;
-//      bugs.textContent = "check review above";
-//      suggestion.textContent ="Optimization suggestions coming soon";
-//      timecomplexity.textContent ="Analyzing....";
-//     console.log("review btn clicked");
-//     console.log("code value", code);
-
-// });
-
-
 let clear = document.getElementById("clear");
 let reviewbtn = document.getElementById("reviewbtn");
+let scorecount = document.getElementById("scorecount");
+let review = document.getElementById("review");
+let bugs = document.getElementById("bugs");
+let suggestion = document.getElementById("suggestion");
+let timecomplexity = document.getElementById("timecomplexity");
+let optimized = document.getElementById("optimized");
+let nav = document.querySelectorAll("nav ul li");
+nav.forEach(item => {
+    item.addEventListener("click", function(){
+        nav.forEach(li =>{
+            li.classList.remove("active");
+        });
+        this.classList.add("active");
+    });
+    
+});
+//let loader = document.getElementById("loader");
 
 function resetReview() {
     let code = document.getElementById("code");
-    let review = document.getElementById("review");
-    let scorecount = document.getElementById("scorecount");
-    let bugs = document.getElementById("bugs");
-    let suggestion = document.getElementById("suggestion");
-    let timecomplexity = document.getElementById("timecomplexity");
-    let optimized = document.getElementById("optimized");
-
     code.value = "";
     review.innerText = "Waiting for review....";
     scorecount.textContent = "0/100";
@@ -85,6 +27,8 @@ function resetReview() {
     suggestion.innerText = "No suggestions yet...";
     timecomplexity.innerText = "Not analyzed yet...";
     optimized.innerText = "No optimized yet...";
+    review.style.color = "white";
+    scorecount.style.color ="white";
 }
 
 clear.addEventListener("click", function () {
@@ -99,12 +43,11 @@ reviewbtn.addEventListener("click", async function () {
         return;
     }
 
-    reviewbtn.disabled = true;
 
     try {
-        console.log("review btn clicked");
-        console.log("code value", code);
-        console.log("before fetch");
+       // loader.style.display ="block";
+        reviewbtn.disabled = true;
+        reviewbtn.textContent= "Reviewing...";
 
         const response = await fetch("http://localhost:5000/review", {
             method: "POST",
@@ -113,8 +56,6 @@ reviewbtn.addEventListener("click", async function () {
             },
             body: JSON.stringify({ code: code })
         });
-
-        console.log("after fetch");
 
         const data = await response.json();
 
@@ -132,17 +73,86 @@ reviewbtn.addEventListener("click", async function () {
         let timecomplexity = document.getElementById("timecomplexity");
         let optimized = document.getElementById("optimized");
 
-        let text = data.review;
 
-        review.textContent = text;
-        bugs.textContent = "check review above";
-        suggestion.textContent = "Optimization suggestions coming soon";
-        timecomplexity.textContent = "Analyzing....";
-        optimized.textContent = "Included in review";
 
-    } catch (error) {
-        document.getElementById("review").textContent = error.message;
-    } finally {
+let text = data.review;
+
+let lines = text.split("\n");
+console.log(lines);
+let scoreLine = lines.find(line => line.startsWith("Overall Score:"));
+let bugsLine = lines.find(line => line.startsWith("Bugs Found:"));
+let timeLine = lines.find(line => line.startsWith("Time Complexity:"));
+
+let optimizedIndex = lines.findIndex(line => line.startsWith("Optimized Code:"));
+let timeIndex = lines.findIndex(line => line.startsWith("Time Complexity:"));
+let suggestionIndex = lines.findIndex(line => line.startsWith("Suggestions:") || line.startsWith("Suggestion:"));
+
+scorecount.textContent = scoreLine.replace("Overall Score: ", "");
+console.log(scorecount);
+let score = parseInt(scorecount.textContent);
+if(score >= 80){
+    scorecount.style.color = "lime";
+}
+else if(score >= 50){
+    scorecount.style.color  = "orange";
+}
+else{
+    scorecount.style.color ="red";
+}
+bugs.textContent = bugsLine.replace("Bugs Found: ", "");
+timecomplexity.textContent = timeLine.replace("Time Complexity: ", "");
+let tc = timecomplexity.textContent.toLowerCase();
+if(tc.includes("o(1)") || tc.includes("o(log)")){
+    timecomplexity.style.color ="green";
+}
+else if(tc.includes("o(n)") || tc.includes("o(nlog)")){
+    timecomplexity.style.color="orange";
+}
+else{
+    timecomplexity.style.color="red";
+}
+
+suggestion.textContent = lines
+  .slice(suggestionIndex, timeIndex)
+  .join("\n")
+  .replace(/Suggestions:/i, "")
+  .replace(/Suggestion:/i, "")
+  .trim();
+
+let optimizedLine = lines[optimizedIndex].replace("Optimized Code:", "").trim();
+if(optimizedLine !== ""){
+    optimized.textContent=optimizedLine;
+}
+else{
+    optimized.textContent = lines
+    .slice(optimizedIndex + 1)
+    .join("\n")
+    .replace("```java", "")
+    .replace("```", "")
+    .trim();
+}
+
+review.textContent="Review completed successfully!! ";
+review.style.color="green";
+
+    } 
+    catch(error){
+
+    console.log(error);
+
+    scorecount.textContent = "N/A";
+    bugs.textContent = "AI service is temporarily busy";
+    suggestion.textContent = "Please try again after some time";
+    timecomplexity.textContent = "Not analyzed";
+    optimized.textContent = "Not available right now";
+
+    review.textContent = "Request failed!!!!";
+    review.style.color = "red";
+   }      
+  finally {
+       // loader.style.display = "none";
         reviewbtn.disabled = false;
+        reviewbtn.textContent= "Review Code";
+        console.log("Finally block sun");
     }
 });

@@ -49,7 +49,8 @@ a{
 .active{
     color: #A855F7;
     padding-bottom: 8px;
-    border-bottom: 3px solid #A855F7;
+    border-bottom: 5px solid #A855F7;
+    border-radius: 2px;
 }
 .main{
     display: flex;
@@ -166,6 +167,29 @@ Main body and right panel
 
 }
 
+.loader{
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    border: 5px solid #333;
+    border-top: 5px solid #4f46e5;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    background: transparent;
+    
+    margin: 10px auto;
+}
+
+@keyframes spin{
+    from{
+        transform: rotate(odeg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
 
 
 
