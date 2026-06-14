@@ -12,8 +12,9 @@
 
         <div class="form-box">
             <input type="text" id="username" placeholder="Enter Username" style="display: none;">
-            <input type="email" placeholder="Enter Email">
-            <input type="password" placeholder="Enter Password">
+            <input type="email" id="email" placeholder="Enter Email">
+            <input type="password" id="password" placeholder="Enter Password">
+            <input type="password" id="confirmpassword" placeholder="Confirm Password" style="display: none;">
 
             <button id="signinbtn">Sign In</button>
             <p class="signup-text">
@@ -27,21 +28,94 @@
     </div>
 
     <script>
-        document.getElementById("guestbtn").addEventListener("click", function(){
-            window.location.href = "index.html";
-            
-        });
-        document.getElementById("signupLink").addEventListener("click", function(e){
-            e.preventDefault();
-            document.querySelector("h1").innerText ="Create Account";
+const username = document.getElementById("username");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const confirmPassword = document.getElementById("confirmpassword");
+const signinbtn = document.getElementById("signinbtn");
+const guestbtn = document.getElementById("guestbtn");
+const signupText = document.querySelector(".signup-text");
 
-            document.getElementById("signinbtn").innerText ="Sign Up";
-            document.getElementById("username").style.display="block";
-            
-            
-        })
+let isSignupMode = false;
+
+function showSignupMode() {
+    isSignupMode = true;
+    document.querySelector("h1").innerText = "Create Account";
+    username.style.display = "block";
+    confirmPassword.style.display = "block";
+    signinbtn.innerText = "Sign Up";
+    signupText.innerHTML = `Already have an account? <a id="toggleLink" href="#">Sign In</a>`;
+    if(password.value != confirmPassword.value){
+    }
+}
+
+function showSigninMode() {
+    isSignupMode = false;
+    document.querySelector("h1").innerText = "AI Code Reviewer";
+    username.style.display = "none";
+    confirmPassword.style.display = "none";
+    signinbtn.innerText = "Sign In";
+    signupText.innerHTML = `Don't have an account? <a id="toggleLink" href="#">Sign Up</a>`;
+}
+
+signupText.addEventListener("click", function(e) {
+    if (e.target.id === "toggleLink") {
+        e.preventDefault();
+
+        if (isSignupMode) {
+            showSigninMode();
+        } else {
+            showSignupMode();
+        }
+    }
+});
+
+signinbtn.addEventListener("click", function() {
+    if (isSignupMode) {
+        if (password.value !== confirmPassword.value) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        console.log("Signup:", username.value, email.value, password.value);
+        localStorage.setItem(
+            email.value, JSON.stringify({
+                username: username.value,
+                email: email.value,
+                password: password.value
+            })
+        );
+        alert("Account created ssuccessfully");
+    } else {
         
-    </script>
+let savedUser = JSON.parse(localStorage.getItem(email.value));
+
+if(savedUser && savedUser.password === password.value){
+    localStorage.setItem("loggedInUser", email.value);
+    window.location.href ="index.html";
+}
+else{
+    alert("password or email mismatch");
+}   
+        
+    }
+});
+
+guestbtn.addEventListener("click", function() {
+    window.location.href = "index.html";
+});
+
+showSigninMode();   
+
+
+
+
+
+
+
+
+
+</script>
 
 </body>
 </html>

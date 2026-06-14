@@ -7,6 +7,8 @@ let suggestion = document.getElementById("suggestion");
 let timecomplexity = document.getElementById("timecomplexity");
 let optimized = document.getElementById("optimized");
 let nav = document.querySelectorAll("nav ul li");
+let currentuser = localStorage.getItem("loggedInUser");
+document.getElementById("useremail").innerText = currentuser;
 nav.forEach(item => {
     item.addEventListener("click", function(){
         nav.forEach(li =>{
@@ -36,6 +38,7 @@ clear.addEventListener("click", function () {
 });
 
 reviewbtn.addEventListener("click", async function () {
+    let userEmail  = localStorage.getItem("loggedInUser");
     const code = document.getElementById("code").value;
 
     if (code.trim() === "") {
@@ -54,7 +57,9 @@ reviewbtn.addEventListener("click", async function () {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ code: code })
+            body: JSON.stringify({ code: code,
+                userEmail: userEmail
+            })
         });
 
         const data = await response.json();
@@ -156,3 +161,18 @@ review.style.color="green";
         console.log("Finally block sun");
     }
 });
+let signinBtn = document.getElementById("signin");
+let loggedInUser = localStorage.getItem("loggedInUser");
+if(loggedInUser){
+    signinBtn.innerText ="Logout";
+}
+
+signinBtn.addEventListener("click", function(){
+    if(loggedInUser){
+        localStorage.removeItem("loggedInUser");
+        window.location.href ="auth.html";
+    }
+    else{
+        window.location.href="auth.html";
+    }
+})

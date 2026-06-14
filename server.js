@@ -26,19 +26,7 @@ app.use(express.json());
 app.post("/review", async (req, res) => {
   console.log("Review api hit");
   try {
-    const { code } = req.body;
-    //testing
-    const sql = `
-    INSERT INTO reviews(code, review)
-    VALUES(?, ?)`;
-    db.query(sql, [code, "testing success"], (err, result) =>{
-        if(err){
-            console.log(err);
-        }
-        else{
-            console.log("reviewd saved in database");
-        }
-    });
+    const { code, userEmail } = req.body;
 
     console.log("Received code:");
     console.log(code);
@@ -75,20 +63,25 @@ ${code}
     });
     console.log("Gemini response received");
     console.log(response);
+    const review = response.text;
+    console.log("Review value");
+    console.log(review);
 
-    // const sql = `
-    // INSERT INTO reviews(code, review)
-    // VALUES(?, ?)`;
-//     db.query(sql, [code, "Test reviewed successfully"], (err, result) => {
-//     if(err){
-//         console.log("Database insert error:", err);
-//     }
-//     else{
-//         console.log("Review saved in database");
     
-// }
 
-// });
+    const sql = `
+    INSERT INTO reviews(code, review, user_email)
+    VALUES(?, ?, ?)`;
+    db.query(sql, [code, review, userEmail], (err, result) => {
+    if(err){
+        console.log("Database insert error:", err);
+    }
+    else{
+        console.log("Review saved in database");
+    
+}
+
+});
 
     res.json({
       review: response.text
@@ -110,10 +103,12 @@ ${code}
 
 
 app.get("/history", (req, res) => {
+    const email = req.query.email;
+    console.log(email);
 
-    const sql = "SELECT * FROM reviews ORDER BY id DESC";
+    const sql = "SELECT * FROM reviews WHERE user_email = ? ORDER BY id DESC";
 
-    db.query(sql, (err, result) => {
+    db.query(sql,[email], (err, result) => {
 
         if (err) {
             console.log(err);
@@ -125,6 +120,22 @@ app.get("/history", (req, res) => {
 
     });
 
+});
+
+app.delete("/history/:id", (req, res) => {
+    const id = req.params.id;
+
+    const sql = "DELETE FROM reviews WHERE id = ?";
+
+    db.query(sql, [id], (err, result) => {
+        if(err){
+            console.log(err);
+            res.status(500).json({ message: "Delete failed" });
+        }
+        else{
+            res.json({ message: "Review deleted successfully" });
+        }
+    });
 });
 
 

@@ -190,6 +190,9 @@ Main body and right panel
         transform: rotate(360deg);
     }
 }
+#useremail{
+    color: white;
+}
 
 
 
