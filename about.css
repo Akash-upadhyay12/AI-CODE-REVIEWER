@@ -39,3 +39,28 @@ body{
     font-size: 16px;
     line-height: 1.8;;
 }
+
+.topbar{
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    z-index: 1000;
+}
+
+.topbar button{
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: #2563EB;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.topbar button:hover{
+    transform: rotate(90deg) scale(1.08);
+    background: #1d4ed8;
+    box-shadow: 0 0 15px rgba(37,99,235,.5);
+}

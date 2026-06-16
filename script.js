@@ -8,7 +8,7 @@ let timecomplexity = document.getElementById("timecomplexity");
 let optimized = document.getElementById("optimized");
 let nav = document.querySelectorAll("nav ul li");
 let currentuser = localStorage.getItem("loggedInUser");
-document.getElementById("useremail").innerText = currentuser;
+document.getElementById("useremail").innerHTML = "🟢 " + currentuser;
 nav.forEach(item => {
     item.addEventListener("click", function(){
         nav.forEach(li =>{
@@ -18,7 +18,7 @@ nav.forEach(item => {
     });
     
 });
-//let loader = document.getElementById("loader");
+let loader = document.getElementById("loader");
 
 function resetReview() {
     let code = document.getElementById("code");
@@ -48,7 +48,7 @@ reviewbtn.addEventListener("click", async function () {
 
 
     try {
-       // loader.style.display ="block";
+        loader.style.display ="block";
         reviewbtn.disabled = true;
         reviewbtn.textContent= "Reviewing...";
 
@@ -155,7 +155,7 @@ review.style.color="green";
     review.style.color = "red";
    }      
   finally {
-       // loader.style.display = "none";
+        loader.style.display = "none";
         reviewbtn.disabled = false;
         reviewbtn.textContent= "Review Code";
         console.log("Finally block sun");
