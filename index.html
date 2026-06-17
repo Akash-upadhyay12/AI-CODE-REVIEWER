@@ -32,13 +32,14 @@
             <div class="btns">
             <button id="reviewbtn">Review Code</button>
             <button id="clear">Clear</button>
+            <div id="loader"></div>
             </div>
             
         </div>
         <div class="right">
             <div class="model">
                 <h2>AI Review</h2>
-                <div class="loader"></div>
+                
                 <select id="gemini">
                     <option>Gemini 1.5 Flash</option>
                     <option>Gemini 1.5 Pro</option>
@@ -65,7 +66,10 @@
                 <p id="timecomplexity">Not analyzed yet...</p>
             </div>
             <div class="review-card">
-                <h3>Optimized Code</h3>
+                <div class="code-header">
+                 <h3>Optimized Code</h3>
+                <button id="copyBtn">📋</button>
+                 </div>
                 <p id="optimized">No optimized code yet...</p>
             </div>
             

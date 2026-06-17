@@ -81,6 +81,7 @@ reviewbtn.addEventListener("click", async function () {
 
 
 let text = data.review;
+console.log(text);
 
 let lines = text.split("\n");
 console.log(lines);
@@ -175,4 +176,20 @@ signinBtn.addEventListener("click", function(){
     else{
         window.location.href="auth.html";
     }
-})
+});
+
+
+
+document.getElementById("copyBtn").addEventListener("click", () => {
+
+    const code = document.getElementById("optimized").innerText;
+
+    navigator.clipboard.writeText(code);
+
+    document.getElementById("copyBtn").innerText = "✅";
+
+    setTimeout(() => {
+        document.getElementById("copyBtn").innerText = "📋";
+    }, 1500);
+
+});

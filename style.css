@@ -93,6 +93,9 @@ Main body and left panel
 }
 .btns{
     margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
 }
 .btns button{
     padding: 12px 24px;
@@ -111,8 +114,43 @@ Main body and left panel
 
 /*
 Main body and right panel 
-*/
+*/.code-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
 
+#copyBtn{
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0;
+    margin: 0;
+}
+
+#copyBtn:hover{
+    color: #00ff99;
+    transform: scale(1.1);
+}
+
+#optimized{
+    white-space: pre-wrap;
+    overflow-x: auto;
+    font-family: Consolas, monospace;
+    line-height: 1.5;
+}
+#optimized{
+    white-space: pre-wrap;
+    overflow: auto;
+    max-height: 300px;
+    overflow-y: auto;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
 
 .review-card{
     margin-top: 15px;
@@ -158,14 +196,16 @@ Main body and right panel
     cursor: pointer;
 
 }
-.loader {
+#loader {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background-color: #fff;
   box-shadow: 32px 0 #fff, -32px 0 #fff;
   position: relative;
+  display: none;
   animation: flash 0.5s ease-out infinite alternate;
+  margin-left: 20px;
 }
 
 @keyframes flash {
