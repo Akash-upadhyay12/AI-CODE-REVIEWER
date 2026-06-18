@@ -17,9 +17,10 @@
             <input type="password" id="confirmpassword" placeholder="Confirm Password" style="display: none;">
 
             <button id="signinbtn">Sign In</button>
+
             <p class="signup-text">
-    Don't have an account? <a id="signupLink" href="#">Sign Up</a>
-</p>
+                Don't have an account? <a id="toggleLink" href="#">Sign Up</a>
+            </p>
 
             <div class="divider">OR</div>
 
@@ -28,94 +29,128 @@
     </div>
 
     <script>
-const username = document.getElementById("username");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const confirmPassword = document.getElementById("confirmpassword");
-const signinbtn = document.getElementById("signinbtn");
-const guestbtn = document.getElementById("guestbtn");
-const signupText = document.querySelector(".signup-text");
+        const username = document.getElementById("username");
+        const email = document.getElementById("email");
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirmpassword");
+        const signinbtn = document.getElementById("signinbtn");
+        const guestbtn = document.getElementById("guestbtn");
+        const signupText = document.querySelector(".signup-text");
 
-let isSignupMode = false;
+        let isSignupMode = false;
 
-function showSignupMode() {
-    isSignupMode = true;
-    document.querySelector("h1").innerText = "Create Account";
-    username.style.display = "block";
-    confirmPassword.style.display = "block";
-    signinbtn.innerText = "Sign Up";
-    signupText.innerHTML = `Already have an account? <a id="toggleLink" href="#">Sign In</a>`;
-    if(password.value != confirmPassword.value){
-    }
-}
-
-function showSigninMode() {
-    isSignupMode = false;
-    document.querySelector("h1").innerText = "AI Code Reviewer";
-    username.style.display = "none";
-    confirmPassword.style.display = "none";
-    signinbtn.innerText = "Sign In";
-    signupText.innerHTML = `Don't have an account? <a id="toggleLink" href="#">Sign Up</a>`;
-}
-
-signupText.addEventListener("click", function(e) {
-    if (e.target.id === "toggleLink") {
-        e.preventDefault();
-
-        if (isSignupMode) {
-            showSigninMode();
-        } else {
-            showSignupMode();
-        }
-    }
-});
-
-signinbtn.addEventListener("click", function() {
-    if (isSignupMode) {
-        if (password.value !== confirmPassword.value) {
-            alert("Passwords do not match");
-            return;
+        function showSignupMode() {
+            isSignupMode = true;
+            document.querySelector("h1").innerText = "Create Account";
+            username.style.display = "block";
+            confirmPassword.style.display = "block";
+            signinbtn.innerText = "Sign Up";
+            signupText.innerHTML = `Already have an account? <a id="toggleLink" href="#">Sign In</a>`;
         }
 
-        console.log("Signup:", username.value, email.value, password.value);
-        localStorage.setItem(
-            email.value, JSON.stringify({
-                username: username.value,
-                email: email.value,
-                password: password.value
-            })
-        );
-        alert("Account created ssuccessfully");
-    } else {
-        
-let savedUser = JSON.parse(localStorage.getItem(email.value));
+        function showSigninMode() {
+            isSignupMode = false;
+            document.querySelector("h1").innerText = "AI Code Reviewer";
+            username.style.display = "none";
+            confirmPassword.style.display = "none";
+            signinbtn.innerText = "Sign In";
+            signupText.innerHTML = `Don't have an account? <a id="toggleLink" href="#">Sign Up</a>`;
+        }
 
-if(savedUser && savedUser.password === password.value){
-    localStorage.setItem("loggedInUser", email.value);
-    window.location.href ="index.html";
-}
-else{
-    alert("password or email mismatch");
-}   
-        
-    }
-});
+        signupText.addEventListener("click", function(e) {
+            if (e.target.id === "toggleLink") {
+                e.preventDefault();
 
-guestbtn.addEventListener("click", function() {
-    window.location.href = "index.html";
-});
+                if (isSignupMode) {
+                    showSigninMode();
+                } else {
+                    showSignupMode();
+                }
+            }
+        });
 
-showSigninMode();   
+        signinbtn.addEventListener("click", function() {
+            if (isSignupMode) {
+                if (username.value.trim() === "" || email.value.trim() === "" || password.value.trim() === "") {
+                    alert("Please fill all fields");
+                    return;
+                }
 
+                if (password.value !== confirmPassword.value) {
+                    alert("Passwords do not match");
+                    return;
+                }
 
+                fetch("http://localhost:5000/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username.value,
+                        email: email.value,
+                        password: password.value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
 
+                    if (data.message === "Signup Successful") {
+                        showSigninMode();
+                        email.value = "";
+                        password.value = "";
+                        username.value = "";
+                        confirmPassword.value = "";
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    alert("Signup failed");
+                });
 
+            } else {
+                if (email.value.trim() === "" || password.value.trim() === "") {
+                    alert("Please enter email and password");
+                    return;
+                }
 
+                fetch("http://localhost:5000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email.value,
+                        password: password.value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    
 
+                    if (data.token) {
+                        localStorage.setItem("token", data.token);
+                        localStorage.setItem("loggedInUser", data.email);
+                        localStorage.setItem("username", data.username);
 
+                        window.location.href = "index.html";
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    alert("Login failed");
+                });
+            }
+        });
 
+        guestbtn.addEventListener("click", function() {
+            localStorage.setItem("loggedInUser", "Guest");
+            window.location.href = "index.html";
+        });
 
-</script>
+        showSigninMode();
+    </script>
 
 </body>
 </html>

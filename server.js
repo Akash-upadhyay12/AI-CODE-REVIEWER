@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const { GoogleGenAI } = require("@google/genai");
 const cors = require("cors");
 const Groq = require("groq-sdk");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 dotenv.config();
 const groq = new Groq({
@@ -46,6 +48,78 @@ db.connect((err) => {
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.post("/signup", async (req, res) => {
+    const { username, email, password } = req.body;
+
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+
+        db.query(sql, [username, email, hashedPassword], (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    message: "User already exists"
+                });
+            }
+
+            res.json({
+                message: "Signup Successful"
+            });
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: "Server Error"
+        });
+    }
+});
+
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+
+    const sql = "SELECT * FROM users WHERE email = ?";
+
+    db.query(sql, [email], async (err, results) => {
+        if (err) {
+            return res.status(500).json({
+                message: "Database error"
+            });
+        }
+
+        if (results.length === 0) {
+            return res.status(400).json({
+                message: "User not found"
+            });
+        }
+
+        const user = results[0];
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({
+                message: "Invalid password"
+            });
+        }
+
+        const token = jwt.sign(
+            { id: user.id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.json({
+            message: "Login Successful",
+            token: token,
+            username: user.username,
+            email: user.email
+        });
+    });
+});
+
+
+
 app.post("/review", async (req, res) => {
     let code;
     let review;
