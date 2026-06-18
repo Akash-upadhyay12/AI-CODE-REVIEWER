@@ -58,10 +58,26 @@ app.post("/signup", async (req, res) => {
 
         db.query(sql, [username, email, hashedPassword], (err, result) => {
             if (err) {
-                return res.status(400).json({
-                    message: "User already exists"
-                });
-            }
+
+    if (err.code === "ER_DUP_ENTRY") {
+
+        if (err.sqlMessage.includes("username")) {
+            return res.status(400).json({
+                message: "Username already exists"
+            });
+        }
+
+        if (err.sqlMessage.includes("email")) {
+            return res.status(400).json({
+                message: "Email already exists"
+            });
+        }
+    }
+
+    return res.status(500).json({
+        message: "Server Error"
+    });
+}
 
             res.json({
                 message: "Signup Successful"
