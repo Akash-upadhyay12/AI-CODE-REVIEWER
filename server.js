@@ -186,19 +186,21 @@ ${code}
 
     
 
+    if (userEmail && userEmail.toLowerCase() !== "guest") {
     const sql = `
     INSERT INTO reviews(code, review, user_email)
     VALUES(?, ?, ?)`;
-    db.query(sql, [code, review, userEmail], (err, result) => {
-    if(err){
-        console.log("Database insert error:", err);
-    }
-    else{
-        console.log("Review saved in database");
-    
-}
 
-});
+    db.query(sql, [code, review, userEmail], (err, result) => {
+        if (err) {
+            console.log("Database insert error:", err);
+        } else {
+            console.log("Review saved in database");
+        }
+    });
+} else {
+    console.log("Guest user - review not saved.");
+}
 
     res.json({
       review: review

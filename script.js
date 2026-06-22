@@ -60,15 +60,18 @@ reviewbtn.addEventListener("click", async function () {
         loader.style.display = "block";
         reviewbtn.disabled = true;
         reviewbtn.textContent = "Reviewing...";
+            let currentuser = localStorage.getItem("loggedInUser");
+            let isGuest = currentuser === "guest";
 
         const response = await fetch("http://localhost:5000/review", {
+        
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 code: codeValue,
-                userEmail: userEmail
+                userEmail: isGuest ? null : userEmail
             })
         });
 
