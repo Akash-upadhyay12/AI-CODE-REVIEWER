@@ -5,7 +5,7 @@ if(!loggedInUser){
 }
 let historycontainer = document.getElementById("historycontainer");
 
-fetch(`http://localhost:5000/history?email=${userEmail}`).then((res) =>res.json()).then((data) =>{
+fetch(`https://ai-code-reviewer-oqsb.onrender.com/history?email=${userEmail}`).then((res) =>res.json()).then((data) =>{
     console.log(data);
     historycontainer.innerHTML = "";
 
@@ -54,7 +54,7 @@ async function deleteReview(id){
     if(!confirmdelete){
         return;
     }
-    await fetch(`http://localhost:5000/history/${id}`,{
+    await fetch(`https://ai-code-reviewer-oqsb.onrender.com/history/${id}`,{
         method: "DELETE"
     })
     location.reload();
