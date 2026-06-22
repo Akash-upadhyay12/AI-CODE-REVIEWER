@@ -63,7 +63,7 @@ reviewbtn.addEventListener("click", async function () {
             let currentuser = localStorage.getItem("loggedInUser");
             let isGuest = currentuser === "guest";
 
-        const response = await fetch("http://localhost:5000/review", {
+        const response = await fetch("https://ai-code-reviewer-oqsb.onrender.com/review", {
         
             method: "POST",
             headers: {
