@@ -1,6 +1,6 @@
 # 🤖 AI Code Reviewer
 
-An AI-powered Full Stack Web Application that reviews source code, detects bugs, provides improvement suggestions, analyzes time complexity, and generates optimized code using Google Gemini AI.
+An AI-powered Full Stack Web Application that reviews source code, detects bugs, provides improvement suggestions, analyzes time complexity, and generates optimized code using Google Gemini AI and Groq API.
 
 ![HTML](https://img.shields.io/badge/HTML-5-orange?style=for-the-badge&logo=html5)
 ![CSS](https://img.shields.io/badge/CSS-3-blue?style=for-the-badge&logo=css3)
@@ -8,7 +8,8 @@ An AI-powered Full Stack Web Application that reviews source code, detects bugs,
 ![Node.js](https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js)
 ![Express.js](https://img.shields.io/badge/Express.js-Framework-black?style=for-the-badge&logo=express)
 ![MySQL](https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge&logo=mysql)
-![Google Gemini](https://img.shields.io/badge/Google-Gemini-AI-4285F4?style=for-the-badge&logo=google)
+![Google Gemini](https://img.shields.io/badge/Google-Gemini_AI-4285F4?style=for-the-badge&logo=google)
+![Groq](https://img.shields.io/badge/Groq-AI_API-orange?style=for-the-badge)
 
 ---
 
@@ -49,6 +50,7 @@ AI Code Reviewer is a Full Stack web application that allows users to submit sou
 
 ### AI
 - Google Gemini API
+- Groq API
 
 ### Tools
 - Git
@@ -62,12 +64,27 @@ AI Code Reviewer is a Full Stack web application that allows users to submit sou
 ```text
 AI-CODE-REVIEWER
 │
-├── frontend
+├── screenshots/
+│   ├── main.png
+│   ├── answer.png
+│   ├── history.png
+│   ├── authentication.png
+│   └── about.png
 │
-├── backend
-│
-├── screenshots
-│
+├── index.html
+├── auth.html
+├── history.html
+├── about.html
+├── script.js
+├── history.js
+├── server.js
+├── style.css
+├── auth.css
+├── history.css
+├── about.css
+├── package.json
+├── package-lock.json
+├── .gitignore
 └── README.md
 ```
 
@@ -96,16 +113,12 @@ npm install
 Create a `.env` file
 
 ```env
-API_KEY=YOUR_GEMINI_API_KEY
-
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+GROQ_API_KEY=YOUR_GROQ_API_KEY
 DB_HOST=localhost
-
 DB_USER=root
-
 DB_PASSWORD=your_password
-
 DB_NAME=ai_code_reviewer
-
 PORT=5000
 ```
 
@@ -122,33 +135,29 @@ Open the frontend in your browser.
 ## 📸 Screenshots
 
 ### Home Page
-
-(Add Screenshot)
+![Home Page](screenshots/main.png)
 
 ### Review Result
-
-(Add Screenshot)
+![Review Result](screenshots/answer.png)
 
 ### History Page
-
-(Add Screenshot)
+![History Page](screenshots/history.png)
 
 ### Login Page
+![Login Page](screenshots/authentication.png)
 
-(Add Screenshot)
+### About Page
+![About Page](screenshots/about.png)
 
 ---
 
 ## 🚀 Future Improvements
 
-- JWT Authentication
-- Password Encryption (bcrypt)
 - Email Verification
-- Dark Mode
+- Dark/Light Mode toggle
 - Download Review as PDF
-- Syntax Highlighting
 - Multi-language Support
-- AI Model Selection
+- AI Provider Switching
 - Review Analytics Dashboard
 
 ---
@@ -173,7 +182,7 @@ Open the frontend in your browser.
 
 GitHub: https://github.com/Akash-upadhyay12
 
-LinkedIn: *(Add your LinkedIn Profile Link)*
+LinkedIn: Add your LinkedIn profile link here
 
 ---
 
