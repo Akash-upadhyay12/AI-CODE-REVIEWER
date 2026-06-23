@@ -1,22 +1,43 @@
-# AI Code Reviewer 
+# 🤖 AI Code Reviewer
 
-An AI-powered code review application that analyzes code and provides feedback using Gemini AI.
+An AI-powered Full Stack Web Application that reviews source code, detects bugs, provides improvement suggestions, analyzes time complexity, and generates optimized code using Google Gemini AI.
 
-## Features
+![HTML](https://img.shields.io/badge/HTML-5-orange?style=for-the-badge&logo=html5)
+![CSS](https://img.shields.io/badge/CSS-3-blue?style=for-the-badge&logo=css3)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow?style=for-the-badge&logo=javascript)
+![Node.js](https://img.shields.io/badge/Node.js-Backend-green?style=for-the-badge&logo=node.js)
+![Express.js](https://img.shields.io/badge/Express.js-Framework-black?style=for-the-badge&logo=express)
+![MySQL](https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge&logo=mysql)
+![Google Gemini](https://img.shields.io/badge/Google-Gemini-AI-4285F4?style=for-the-badge&logo=google)
 
-- AI Code Review using Gemini API
-- User Authentication (Sign Up / Login)
-- Review History
-- User-specific Review Storage
-- Delete Individual Reviews
-- Logout Functionality
-- MySQL Database Integration
+---
 
-## Tech Stack
+## 📖 Overview
+
+AI Code Reviewer is a Full Stack web application that allows users to submit source code and receive AI-generated feedback. It detects bugs, provides improvement suggestions, analyzes time complexity, and generates optimized code to help developers write cleaner and more efficient programs.
+
+---
+
+## ✨ Features
+
+- 🤖 AI-powered Code Review
+- 🐞 Bug Detection
+- 💡 Code Improvement Suggestions
+- ⚡ Time Complexity Analysis
+- 🚀 Optimized Code Generation
+- 👤 User Authentication
+- 📜 Review History
+- 🗑️ Delete Individual Review
+- 🧹 Delete All Reviews
+- 📱 Responsive User Interface
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
-- HTML
-- CSS
+- HTML5
+- CSS3
 - JavaScript
 
 ### Backend
@@ -27,55 +48,135 @@ An AI-powered code review application that analyzes code and provides feedback u
 - MySQL
 
 ### AI
-- Gemini API
+- Google Gemini API
 
-## Project Screens
+### Tools
+- Git
+- GitHub
+- VS Code
 
-- Authentication Page
-- Review Code Page
-- History Page
-- About Page
+---
 
-## How to Run
+## 📂 Folder Structure
 
-1. Clone the repository
-
-```bash
-git clone <repository-url>
+```text
+AI-CODE-REVIEWER
+│
+├── frontend
+│
+├── backend
+│
+├── screenshots
+│
+└── README.md
 ```
 
-2. Install dependencies
+---
+
+## ⚙️ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/Akash-upadhyay12/AI-CODE-REVIEWER.git
+```
+
+Go to the project folder
+
+```bash
+cd AI-CODE-REVIEWER
+```
+
+Install dependencies
 
 ```bash
 npm install
 ```
 
-3. Create a `.env` file and add your Gemini API Key
+Create a `.env` file
 
 ```env
-GEMINI_API_KEY=your_api_key
+API_KEY=YOUR_GEMINI_API_KEY
+
+DB_HOST=localhost
+
+DB_USER=root
+
+DB_PASSWORD=your_password
+
+DB_NAME=ai_code_reviewer
+
+PORT=5000
 ```
 
-4. Start the server
+Run the backend
 
 ```bash
-node server.js
+npm start
 ```
 
-5. Open the project in browser
+Open the frontend in your browser.
 
-```text
-http://localhost:5500
-```
+---
 
-## Future Improvements
+## 📸 Screenshots
+
+### Home Page
+
+(Add Screenshot)
+
+### Review Result
+
+(Add Screenshot)
+
+### History Page
+
+(Add Screenshot)
+
+### Login Page
+
+(Add Screenshot)
+
+---
+
+## 🚀 Future Improvements
 
 - JWT Authentication
-- Password Hashing (bcrypt)
-- Delete All Reviews
-- Deployment
-- Review Statistics Dashboard
+- Password Encryption (bcrypt)
+- Email Verification
+- Dark Mode
+- Download Review as PDF
+- Syntax Highlighting
+- Multi-language Support
+- AI Model Selection
+- Review Analytics Dashboard
 
-## Author
+---
 
-Akash Upadhyay
+## 📚 Learning Outcomes
+
+- Full Stack Web Development
+- REST API Development
+- Express.js
+- MySQL Database
+- AI API Integration
+- CRUD Operations
+- Git & GitHub
+- Responsive Web Design
+- Error Handling
+
+---
+
+## 👨‍💻 Author
+
+**Akash Upadhyay**
+
+GitHub: https://github.com/Akash-upadhyay12
+
+LinkedIn: *(Add your LinkedIn Profile Link)*
+
+---
+
+## ⭐ Support
+
+If you like this project, don't forget to ⭐ the repository.
