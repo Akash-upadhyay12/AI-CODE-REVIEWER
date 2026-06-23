@@ -9,7 +9,8 @@ let optimized = document.getElementById("optimized");
 let nav = document.querySelectorAll("nav ul li");
 let currentuser = localStorage.getItem("loggedInUser");
 
-document.getElementById("useremail").innerHTML = "🟢 " + currentuser;
+document.getElementById("useremail").innerHTML =
+    currentuser ? "🟢 " + currentuser : "";
 
 nav.forEach(item => {
     item.addEventListener("click", function () {
@@ -61,7 +62,7 @@ reviewbtn.addEventListener("click", async function () {
         reviewbtn.disabled = true;
         reviewbtn.textContent = "Reviewing...";
             let currentuser = localStorage.getItem("loggedInUser");
-            let isGuest = currentuser === "guest";
+            let isGuest = !currentuser || currentuser.toLowerCase() === "guest";
 
         const response = await fetch("https://ai-code-reviewer-oqsb.onrender.com/review", {
         

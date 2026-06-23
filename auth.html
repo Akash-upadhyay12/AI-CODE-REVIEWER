@@ -71,7 +71,7 @@
 
         signinbtn.addEventListener("click", function() {
             if (isSignupMode) {
-                if (username.value.trim() === "" || email.value.trim() === "" || password.value.trim() === "") {
+                if (username.value.trim() === "" || email.value.trim() === "" || password.value.trim() === "" || confirmPassword.value.trim() === "") {
                     alert("Please fill all fields");
                     return;
                 }
@@ -87,8 +87,8 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        username: username.value,
-                        email: email.value,
+                        username: username.value.trim(),
+                        email: email.value.trim(),
                         password: password.value
                     })
                 })
@@ -121,20 +121,22 @@
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        email: email.value,
+                        email: email.value.trim(),
                         password: password.value
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    
+                    console.log(data);
 
-                    if (data.token) {
+                    if (data.message === "Login Successful") {
                         localStorage.setItem("token", data.token);
                         localStorage.setItem("loggedInUser", data.email);
                         localStorage.setItem("username", data.username);
 
                         window.location.href = "index.html";
+                    } else {
+                        alert(data.message || "Invalid email or password");
                     }
                 })
                 .catch(error => {
@@ -145,7 +147,9 @@
         });
 
         guestbtn.addEventListener("click", function() {
-            localStorage.setItem("loggedInUser", "Guest");
+            localStorage.setItem("loggedInUser", "guest");
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
             window.location.href = "index.html";
         });
 
