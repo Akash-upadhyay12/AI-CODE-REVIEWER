@@ -71,7 +71,7 @@ reviewbtn.addEventListener("click", async function () {
             },
             body: JSON.stringify({
                 code: codeValue,
-                email: isGuest ? null : userEmail
+                userEmail: isGuest ? null : userEmail
             })
         });
 
