@@ -144,10 +144,13 @@ app.post("/review", async (req, res) => {
     let userEmail
   console.log("Review api hit");
   try {
-    const { code, userEmail } = req.body;
+const { code, userEmail } = req.body;
 
-    console.log("Received code:");
-    console.log(code);
+console.log("BODY:", req.body);
+console.log("EMAIL:", userEmail);
+
+console.log("Received code:");
+console.log(code);
     console.log("Calling gemini...");
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
