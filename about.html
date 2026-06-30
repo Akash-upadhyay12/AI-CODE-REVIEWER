@@ -85,6 +85,7 @@
 
 
 <script>
+    const ADMIN_EMAIL = "aagamerstudy@gmail.com";
     let selectedRating = 0;
 
 const stars = document.querySelectorAll("#ratingStars span");
@@ -196,17 +197,19 @@ async function loadRatings() {
        </small>
                 <p>${user.feedback}</p>
                 ${
-    user.user_email === localStorage.getItem("loggedInUser")
-    ? `<button class="edit-btn" onclick="editRating('${user.user_email}', ${user.rating}, \`${user.feedback}\`)">Edit</button>`
+    user.user_email === localStorage.getItem("loggedInUser") ||
+    localStorage.getItem("loggedInUser") === ADMIN_EMAIL
+    ? `<button class="edit-btn"
+       onclick="editRating('${user.user_email}', ${user.rating}, '${user.feedback}')">
+       Edit
+       </button>`
     : ""
 }
                 ${
-    user.user_email === localStorage.getItem("loggedInUser")
-    ? `<button class="delete-btn"
-onclick="deleteRating('${user.user_email}')">
-Delete
-</button>`
-: ""
+    user.user_email === localStorage.getItem("loggedInUser") ||
+    localStorage.getItem("loggedInUser") === ADMIN_EMAIL
+    ? `<button class="delete-btn" onclick="deleteRating('${user.user_email}')">Delete</button>`
+    : ""
 }
             </div>
         `;
