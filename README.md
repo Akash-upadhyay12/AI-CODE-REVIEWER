@@ -182,10 +182,12 @@ Open the frontend in your browser.
 
 GitHub: https://github.com/Akash-upadhyay12
 
-LinkedIn: Add your LinkedIn profile link here
+LinkedIn: https://www.linkedin.com/in/akashupadhyay07/
+
+LeetCode: https://leetcode.com/u/akash_upadhyay1234/
 
 ---
 
 ## ⭐ Support
 
-If you like this project, don't forget to ⭐ the repository.
+      Thanks !!!
