@@ -184,7 +184,7 @@ ${code}
     });
     console.log("Gemini response received");
     console.log(response);
-    // const review = response.text;
+    
     review = response.text;
     console.log("Review value");
     console.log(review);

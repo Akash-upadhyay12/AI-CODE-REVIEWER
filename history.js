@@ -38,7 +38,10 @@ let optimizedCode = reviewText.split("Optimized Code:")[1]?.trim() || "Code is a
 <p><strong>Optimized Code:</strong> ${optimizedCode}</p>
 
 <p><strong>Date:</strong> ${new Date(item.created_at).toLocaleString()}</p>
-<button onclick ="deleteReview(${item.id})">Delete</button>
+<button class="history-delete-btn"
+onclick="deleteReview(${item.id})">
+    Delete
+</button>
         </div>
     `;
 });
