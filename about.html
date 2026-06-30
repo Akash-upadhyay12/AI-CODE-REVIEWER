@@ -57,6 +57,264 @@
 
 
 </div>
+
+<section class="rating-section">
+    <h2>⭐ Rate Our Website</h2>
+
+    <div class="overall-rating">
+        <h3 id="avgRating">0.0/5</h3>
+        <p id="totalRatings">Based on 0 reviews</p>
+    </div>
+
+    <div class="stars" id="ratingStars">
+        <span data-rating="1">★</span>
+        <span data-rating="2">★</span>
+        <span data-rating="3">★</span>
+        <span data-rating="4">★</span>
+        <span data-rating="5">★</span>
+    </div>
+
+    <textarea id="ratingFeedback" placeholder="Describe your experience with this website..."></textarea>
+
+    <button id="submitRating">Submit Rating</button>
+
+    <p id="ratingMessage"></p>
+
+    <div class="reviews-list" id="reviewsList"></div>
+</section>
+
+
+<script>
+    let selectedRating = 0;
+
+const stars = document.querySelectorAll("#ratingStars span");
+
+stars.forEach((star) => {
+
+    star.addEventListener("click", () => {
+
+        selectedRating = Number(star.dataset.rating);
+
+        stars.forEach((s) => {
+            s.classList.remove("active");
+        });
+
+        for (let i = 0; i < selectedRating; i++) {
+            stars[i].classList.add("active");
+        }
+
+    });
+
+});
+
+
+
+document.getElementById("submitRating").addEventListener("click", async () => {
+
+    const feedback = document.getElementById("ratingFeedback").value;
+
+    const user_email = localStorage.getItem("loggedInUser");
+
+
+   if (!user_email || user_email === "Guest") {
+    alert("Please login first to rate this website!");
+    return;
+}
+const user_name = user_email.split("@")[0];
+
+    if (selectedRating === 0) {
+        alert("Please select a rating!");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("https://ai-code-reviewer-oqsb.onrender.com/rating", {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                user_email,
+                user_name,
+                rating: selectedRating,
+                feedback
+            })
+
+        });
+
+        const data = await response.json();
+
+        alert(data.message || data.error);
+        document.getElementById("ratingFeedback").value = "";
+
+       selectedRating = 0;
+
+     loadRatings();
+
+    }
+
+    catch (err) {
+        console.log(err);
+        alert("Something went wrong!");
+    }
+
+});
+
+
+
+
+async function loadRatings() {
+
+    const response = await fetch("https://ai-code-reviewer-oqsb.onrender.com/ratings");
+
+    const data = await response.json();
+
+    document.getElementById("avgRating").innerText =
+        `${data.averageRating || 0}/5`;
+
+    document.getElementById("totalRatings").innerText =
+        `Based on ${data.totalRatings} reviews`;
+
+    const reviewsList = document.getElementById("reviewsList");
+
+    reviewsList.innerHTML = "";
+
+    data.users.forEach((user) => {
+
+        reviewsList.innerHTML += `
+            <div class="review-card">
+                <h4>${user.user_name}</h4>
+                <p>${"⭐".repeat(user.rating)}</p>
+                <small>
+          ${new Date(user.created_at).toLocaleString("en-IN", {
+             dateStyle: "medium",
+            timeStyle: "short"
+         })}    
+       </small>
+                <p>${user.feedback}</p>
+                ${
+    user.user_email === localStorage.getItem("loggedInUser")
+    ? `<button class="edit-btn" onclick="editRating('${user.user_email}', ${user.rating}, \`${user.feedback}\`)">Edit</button>`
+    : ""
+}
+                ${
+    user.user_email === localStorage.getItem("loggedInUser")
+    ? `<button class="delete-btn"
+onclick="deleteRating('${user.user_email}')">
+Delete
+</button>`
+: ""
+}
+            </div>
+        `;
+
+    });
+
+}
+
+loadRatings();
+
+
+
+
+async function deleteRating(email) {
+
+    const confirmDelete = confirm("Are you sure you want to delete your rating?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`https://ai-code-reviewer-oqsb.onrender.com/rating/${email}`, {
+            method: "DELETE"
+        });
+
+        const data = await response.json();
+
+        alert(data.message || data.error);
+
+        loadRatings();
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+        alert("Failed to delete rating");
+
+    }
+
+}
+
+
+async function editRating(email, oldRating, oldFeedback) {
+
+    const newRating = prompt(
+        "Enter new rating (1-5):",
+        oldRating
+    );
+
+    if (!newRating) {
+        return;
+    }
+
+    const newFeedback = prompt(
+        "Edit your feedback:",
+        oldFeedback
+    );
+
+    if (!newFeedback) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`https://ai-code-reviewer-oqsb.onrender.com/rating/${email}`, {
+
+            method: "PUT",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                rating: Number(newRating),
+                feedback: newFeedback
+            })
+
+        });
+
+        const data = await response.json();
+
+        alert(data.message || data.error);
+
+        loadRatings();
+
+    }
+
+    catch (err) {
+
+        console.log(err);
+        alert("Failed to update rating");
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+</script>
     
 </body>
 </html>

@@ -322,6 +322,146 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
+app.post("/rating", (req, res) => {
+    const { user_email, user_name, rating, feedback } = req.body;
+
+    if (!user_email || !user_name || !rating || !feedback) {
+        return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (rating < 1 || rating > 5) {
+        return res.status(400).json({ error: "Rating must be between 1 and 5" });
+    }
+
+    if (feedback.trim().length < 20) {
+        return res.status(400).json({ error: "Please write feedback of at least 20 characters" });
+    }
+
+    const sql = "INSERT INTO website_ratings (user_email, user_name, rating, feedback) VALUES (?, ?, ?, ?)";
+
+    db.query(sql, [user_email, user_name, rating, feedback], (err) => {
+        if (err) {
+            if (err.code === "ER_DUP_ENTRY") {
+                return res.status(409).json({ error: "You have already rated this website" });
+            }
+
+            console.log(err);
+            return res.status(500).json({ error: "Failed to save rating" });
+        }
+
+        res.json({ message: "Thanks for your valuable feedback!" });
+    });
+});
+
+
+app.get("/ratings", (req, res) => {
+
+    const avgSql = `
+        SELECT 
+            ROUND(AVG(rating), 1) AS averageRating,
+            COUNT(*) AS totalRatings
+        FROM website_ratings
+    `;
+
+    db.query(avgSql, (err, avgResult) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: "Database error" });
+        }
+
+        const userSql = `
+            SELECT user_name, user_email, rating, feedback, created_at
+             FROM website_ratings
+              ORDER BY created_at DESC
+        `;
+
+        db.query(userSql, (err, users) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ error: "Database error" });
+            }
+
+            res.json({
+                averageRating: avgResult[0].averageRating,
+                totalRatings: avgResult[0].totalRatings,
+                users: users
+            });
+
+        });
+
+    });
+
+});
+
+
+
+app.delete("/rating/:email", (req, res) => {
+    const email = req.params.email;
+
+    const sql = "DELETE FROM website_ratings WHERE user_email = ?";
+
+    db.query(sql, [email], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: "Failed to delete rating" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Rating not found" });
+        }
+
+        res.json({ message: "Rating deleted successfully" });
+    });
+});
+
+
+
+
+app.put("/rating/:email", (req, res) => {
+    const email = req.params.email;
+    const { rating, feedback } = req.body;
+
+    if (!rating || !feedback) {
+        return res.status(400).json({ error: "Rating and feedback are required" });
+    }
+
+    if (rating < 1 || rating > 5) {
+        return res.status(400).json({ error: "Rating must be between 1 and 5" });
+    }
+
+    if (feedback.trim().length < 20) {
+        return res.status(400).json({ error: "Please write feedback of at least 20 characters" });
+    }
+
+    const sql = `
+        UPDATE website_ratings
+        SET rating = ?, feedback = ?
+        WHERE user_email = ?
+    `;
+
+    db.query(sql, [rating, feedback, email], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ error: "Failed to update rating" });
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Rating not found" });
+        }
+
+        res.json({ message: "Rating updated successfully" });
+    });
+});
+
+
+
+
+
+
+
+
 app.listen(5000, () => {
     console.log("Server running on port 5000");
 });
